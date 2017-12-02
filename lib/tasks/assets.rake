@@ -54,7 +54,7 @@ namespace :react_on_rails do
 
       sh "#{ReactOnRails::Utils.prepend_cd_node_modules_directory('<ReactOnRails.configuration.build_production_command>')}"
     DESC
-    task webpack: [:locale, 'webpacker:yarn_install'] do
+    task webpack: :locale do
       if Rake::Task.task_defined?("webpacker:compile")
         # TODO: Eventually, this will need reconsideration if we use any of the Webpacker compilation
         Rake::Task["webpacker:compile"].clear
@@ -66,5 +66,7 @@ namespace :react_on_rails do
         ).to_s
       end
     end
+
+    task :webpack => 'webpacker:yarn_install' if  Rake::Task.task_defined?("webpacker:yarn_install")
   end
 end
